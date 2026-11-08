@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What is Your True Mental Age? - Fun Quiz</title>
+    
+    <meta property="og:title" content="What is Your True Mental Age? - Fun Quiz">
+    <meta property="og:description" content="Discover your true mental age with this fun dynamic quiz! Answer 5 quick questions and share your results with friends.">
+    <meta property="og:type" content="website">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -134,7 +139,6 @@
             finalMentalAge = Math.floor(totalScore / 5) + 12;
             if(finalMentalAge > 45) finalMentalAge = 38;
 
-            // 100% Pure English Share Message Format
             let message = `OMG! My True Mental Age is ${finalMentalAge} Years Old! 😎 Check yours here: ` + window.location.href;
             let whatsappURL = `https://wa.me/?text=` + encodeURIComponent(message);
 
@@ -156,7 +160,6 @@
             `;
         }
 
-        // Initialize quiz on load
         startQuiz();
     </script>
 </body>
