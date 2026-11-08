@@ -10,13 +10,11 @@
 <body class="bg-gradient-to-br from-indigo-900 to-purple-800 min-h-screen flex items-center justify-center p-4 text-white font-sans">
 
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl max-w-md w-full text-center border border-white/20">
-        <h1 class="text-3xl font-bold mb-2 text-yellow-300">🧠 Mental Age Quiz</h1>
-        <p class="text-gray-200 mb-6 text-sm">Discover your true mental age! Questions change dynamically.</p>
+        <h1 class="text-2xl font-bold mb-4 text-yellow-300">🧠 Mental Age Quiz</h1>
         
+        <!-- Direct Quiz Container -->
         <div id="quiz-container">
-            <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
-                Start Quiz 🚀
-            </button>
+            <!-- Questions will load here automatically -->
         </div>
     </div>
 
@@ -98,7 +96,7 @@
         }
 
         function startQuiz() {
-            quizQuestions = shuffleArray([...allQuestions]).slice(0, 4);
+            quizQuestions = shuffleArray([...allQuestions]).slice(0, 5);
             currentQuestion = 0;
             totalScore = 0;
             showQuestion();
@@ -133,12 +131,12 @@
         }
 
         function showResult() {
-            finalMentalAge = Math.floor(totalScore / 4) + 12;
+            finalMentalAge = Math.floor(totalScore / 5) + 12;
             if(finalMentalAge > 45) finalMentalAge = 38;
 
-            // WhatsApp share message setup
-            let shareText = encodeURIComponent(`OMG! Mera Mental Age ${finalMentalAge} Years nikla hai! Apni mental age check karne ke liye yahan click karein: ` + window.location.href);
-            let whatsappURL = `https://api.whatsapp.com/send?text=${shareText}`;
+            // 100% Pure English Share Message Format
+            let message = `OMG! My True Mental Age is ${finalMentalAge} Years Old! 😎 Check yours here: ` + window.location.href;
+            let whatsappURL = `https://wa.me/?text=` + encodeURIComponent(message);
 
             document.getElementById('quiz-container').innerHTML = `
                 <h2 class="text-2xl font-bold text-green-300 mb-2">Quiz Completed! 🎉</h2>
@@ -148,7 +146,6 @@
                     <p class="text-3xl font-extrabold text-yellow-400 mt-1">${finalMentalAge} Years Old! 😎</p>
                 </div>
                 
-                <!-- WhatsApp Share Button -->
                 <a href="${whatsappURL}" target="_blank" class="block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300 mb-3 text-center">
                     Share on WhatsApp 🟢
                 </a>
@@ -158,6 +155,9 @@
                 </button>
             `;
         }
+
+        // Initialize quiz on load
+        startQuiz();
     </script>
 </body>
 </html>
