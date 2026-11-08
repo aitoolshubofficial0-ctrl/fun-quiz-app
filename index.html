@@ -4,42 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What is Your True Mental Age? - Fun Quiz</title>
-    <!-- Tailwind CSS CDN for styling -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-indigo-900 to-purple-800 min-h-screen flex items-center justify-center p-4 text-white">
+<body class="bg-gradient-to-br from-indigo-900 to-purple-800 min-h-screen flex items-center justify-center p-4 text-white font-sans">
 
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl max-w-md w-full text-center border border-white/20">
-        <h1 class="text-3xl font-bold mb-4 text-yellow-300">🧠 Mental Age Quiz</h1>
-        <p class="text-gray-200 mb-6">Find out your true mental age based on your daily habits and choices!</p>
+        <h1 class="text-3xl font-bold mb-2 text-yellow-300">🧠 Mental Age Quiz</h1>
+        <p class="text-gray-200 mb-6 text-sm">Answer these 3 quick questions to discover your true mental age!</p>
         
-        <div id="quiz-box">
+        <div id="quiz-container">
             <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
-                Start Quiz Now 🚀
+                Start Quiz 🚀
             </button>
         </div>
     </div>
 
     <script>
+        const questions = [
+            {
+                question: "Q1: What is your ideal weekend plan?",
+                options: [
+                    { text: "Sleeping early & relaxing 🛌", score: 25 },
+                    { text: "Gaming or watching movies all night 🎮", score: 15 },
+                    { text: "Partying with friends 🎉", score: 10 }
+                ]
+            },
+            {
+                question: "Q2: How do you react when you see a spooky ghost movie?",
+                options: [
+                    { text: "Laugh because it's fake 😂", score: 10 },
+                    { text: "Cover my eyes with a pillow 🙈", score: 20 },
+                    { text: "Sleep with the lights on 💡", score: 30 }
+                ]
+            },
+            {
+                question: "Q3: Choose your favorite snack:",
+                options: [
+                    { text: "Healthy salad or green tea 🥗", score: 28 },
+                    { text: "Pizza & Burgers 🍕", score: 15 },
+                    { text: "Ice cream & Chocolates 🍫", score: 10 }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let totalScore = 0;
+
         function startQuiz() {
-            document.getElementById('quiz-box').innerHTML = `
-                <p class="text-lg font-semibold mb-4">Question 1: What do you prefer on a weekend night?</p>
-                <div class="space-y-3">
-                    <button onclick="nextQ(2)" class="bg-purple-600 hover:bg-purple-700 w-full py-2 rounded-lg">Sleeping early & relaxing 🛌</button>
-                    <button onclick="nextQ(1)" class="bg-purple-600 hover:bg-purple-700 w-full py-2 rounded-lg">Gaming or watching movies all night 🎮</button>
-                </div>
-            `;
+            currentQuestion = 0;
+            totalScore = 0;
+            showQuestion();
         }
 
-        function nextQ(score) {
-            document.getElementById('quiz-box').innerHTML = `
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                let q = questions[currentQuestion];
+                let optionsHTML = '';
+                
+                q.options.forEach((opt, index) => {
+                    optionsHTML += `<button onclick="selectOption(${opt.score})" class="bg-purple-600 hover:bg-purple-700 text-white font-medium w-full py-3 px-4 rounded-xl transition duration-200 shadow-md">${opt.text}</button>`;
+                });
+
+                document.getElementById('quiz-container').innerHTML = `
+                    <p class="text-xs text-yellow-300 font-semibold mb-2">Question ${currentQuestion + 1} of ${questions.length}</p>
+                    <h2 class="text-lg font-semibold mb-5 text-gray-100">${q.question}</h2>
+                    <div class="space-y-3">
+                        ${optionsHTML}
+                    </div>
+                `;
+            } else {
+                showResult();
+            }
+        }
+
+        function selectOption(score) {
+            totalScore += score;
+            currentQuestion++;
+            showQuestion();
+        }
+
+        function showResult() {
+            let mentalAge = Math.floor(totalScore / 2) + 10;
+            if(mentalAge > 45) mentalAge = 35; // Fun capping
+
+            document.getElementById('quiz-container').innerHTML = `
                 <h2 class="text-2xl font-bold text-green-300 mb-2">Quiz Completed! 🎉</h2>
-                <p class="text-gray-200 mb-4">Calculating your results...</p>
-                <div class="text-xl font-bold text-yellow-400">Your Mental Age is: 24 Years Old! 😎</div>
-                <button onclick="location.reload()" class="mt-6 bg-yellow-400 text-gray-900 font-bold py-2 px-4 rounded-full w-full">Try Again</button>
+                <p class="text-gray-200 mb-4 text-sm">Based on your choices...</p>
+                <div class="bg-white/20 p-4 rounded-xl mb-6 border border-white/10">
+                    <p class="text-sm text-gray-300">Your True Mental Age is:</p>
+                    <p class="text-3xl font-extrabold text-yellow-400 mt-1">${mentalAge} Years Old! 😎</p>
+                </div>
+                <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
+                    Play Again 🔄
+                </button>
             `;
         }
     </script>
-
 </body>
 </html>
