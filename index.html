@@ -11,7 +11,7 @@
 
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl max-w-md w-full text-center border border-white/20">
         <h1 class="text-3xl font-bold mb-2 text-yellow-300">🧠 Mental Age Quiz</h1>
-        <p class="text-gray-200 mb-6 text-sm">New questions appear every time you play!</p>
+        <p class="text-gray-200 mb-6 text-sm">Discover your true mental age! Questions change dynamically.</p>
         
         <div id="quiz-container">
             <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
@@ -21,7 +21,6 @@
     </div>
 
     <script>
-        // Bara question bank taake har baar naye sawal aayein
         const allQuestions = [
             {
                 question: "Q: What is your ideal weekend plan?",
@@ -92,13 +91,13 @@
         let quizQuestions = [];
         let currentQuestion = 0;
         let totalScore = 0;
+        let finalMentalAge = 0;
 
         function shuffleArray(array) {
             return array.sort(() => Math.random() - 0.5);
         }
 
         function startQuiz() {
-            // Har baar 8 mein se random 4 mukhtalif sawal uthaye ga
             quizQuestions = shuffleArray([...allQuestions]).slice(0, 4);
             currentQuestion = 0;
             totalScore = 0;
@@ -109,7 +108,6 @@
             if (currentQuestion < quizQuestions.length) {
                 let q = quizQuestions[currentQuestion];
                 let optionsHTML = '';
-                
                 let shuffledOptions = shuffleArray([...q.options]);
 
                 shuffledOptions.forEach((opt) => {
@@ -135,16 +133,26 @@
         }
 
         function showResult() {
-            let mentalAge = Math.floor(totalScore / 4) + 12;
-            if(mentalAge > 45) mentalAge = 38;
+            finalMentalAge = Math.floor(totalScore / 4) + 12;
+            if(finalMentalAge > 45) finalMentalAge = 38;
+
+            // WhatsApp share message setup
+            let shareText = encodeURIComponent(`OMG! Mera Mental Age ${finalMentalAge} Years nikla hai! Apni mental age check karne ke liye yahan click karein: ` + window.location.href);
+            let whatsappURL = `https://api.whatsapp.com/send?text=${shareText}`;
 
             document.getElementById('quiz-container').innerHTML = `
                 <h2 class="text-2xl font-bold text-green-300 mb-2">Quiz Completed! 🎉</h2>
                 <p class="text-gray-200 mb-4 text-sm">Based on your unique choices...</p>
-                <div class="bg-white/20 p-4 rounded-xl mb-6 border border-white/10">
+                <div class="bg-white/20 p-4 rounded-xl mb-5 border border-white/10">
                     <p class="text-sm text-gray-300">Your True Mental Age is:</p>
-                    <p class="text-3xl font-extrabold text-yellow-400 mt-1">${mentalAge} Years Old! 😎</p>
+                    <p class="text-3xl font-extrabold text-yellow-400 mt-1">${finalMentalAge} Years Old! 😎</p>
                 </div>
+                
+                <!-- WhatsApp Share Button -->
+                <a href="${whatsappURL}" target="_blank" class="block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300 mb-3 text-center">
+                    Share on WhatsApp 🟢
+                </a>
+
                 <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
                     Play Again 🔄
                 </button>
@@ -153,4 +161,3 @@
     </script>
 </body>
 </html>
-28
