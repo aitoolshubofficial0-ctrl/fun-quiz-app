@@ -11,7 +11,7 @@
 
     <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl max-w-md w-full text-center border border-white/20">
         <h1 class="text-3xl font-bold mb-2 text-yellow-300">🧠 Mental Age Quiz</h1>
-        <p class="text-gray-200 mb-6 text-sm">Answer these 3 quick questions to discover your true mental age!</p>
+        <p class="text-gray-200 mb-6 text-sm">New questions appear every time you play!</p>
         
         <div id="quiz-container">
             <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
@@ -21,9 +21,10 @@
     </div>
 
     <script>
-        const questions = [
+        // Bara question bank taake har baar naye sawal aayein
+        const allQuestions = [
             {
-                question: "Q1: What is your ideal weekend plan?",
+                question: "Q: What is your ideal weekend plan?",
                 options: [
                     { text: "Sleeping early & relaxing 🛌", score: 25 },
                     { text: "Gaming or watching movies all night 🎮", score: 15 },
@@ -31,7 +32,7 @@
                 ]
             },
             {
-                question: "Q2: How do you react when you see a spooky ghost movie?",
+                question: "Q: How do you react when you see a spooky movie?",
                 options: [
                     { text: "Laugh because it's fake 😂", score: 10 },
                     { text: "Cover my eyes with a pillow 🙈", score: 20 },
@@ -39,35 +40,84 @@
                 ]
             },
             {
-                question: "Q3: Choose your favorite snack:",
+                question: "Q: Choose your favorite snack:",
                 options: [
                     { text: "Healthy salad or green tea 🥗", score: 28 },
                     { text: "Pizza & Burgers 🍕", score: 15 },
                     { text: "Ice cream & Chocolates 🍫", score: 10 }
                 ]
+            },
+            {
+                question: "Q: How do you handle your smartphone battery?",
+                options: [
+                    { text: "Charge it only when it dies completely 📴", score: 12 },
+                    { text: "Plug it in whenever it hits 50% 🔋", score: 26 },
+                    { text: "Keep it on charger all day long 🔌", score: 18 }
+                ]
+            },
+            {
+                question: "Q: What is your shopping habit?",
+                options: [
+                    { text: "Buy only what is strictly necessary 🛒", score: 30 },
+                    { text: "Spend half salary on cool gadgets 📱", score: 14 },
+                    { text: "Buy things just because they look cute 😍", score: 10 }
+                ]
+            },
+            {
+                question: "Q: How do you wake up in the morning?",
+                options: [
+                    { text: "Wake up before the alarm rings 🌅", score: 30 },
+                    { text: "Snooze alarm 5 times ⏰", score: 15 },
+                    { text: "Ignore alarm and keep sleeping 😴", score: 10 }
+                ]
+            },
+            {
+                question: "Q: What do you do when you lose your keys?",
+                options: [
+                    { text: "Calmly retrace my steps 🧘‍♂️", score: 25 },
+                    { text: "Search everywhere while panicking 🏃‍♂️", score: 15 },
+                    { text: "Blame everyone else in the house 🤷‍♂️", score: 10 }
+                ]
+            },
+            {
+                question: "Q: How do you deal with a long text message?",
+                options: [
+                    { text: "Read every word carefully 📖", score: 25 },
+                    { text: "Skim it quickly and reply in short ⚡", score: 18 },
+                    { text: "Ignore it and send a voice note later 🎤", score: 12 }
+                ]
             }
         ];
 
+        let quizQuestions = [];
         let currentQuestion = 0;
         let totalScore = 0;
 
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
         function startQuiz() {
+            // Har baar 8 mein se random 4 mukhtalif sawal uthaye ga
+            quizQuestions = shuffleArray([...allQuestions]).slice(0, 4);
             currentQuestion = 0;
             totalScore = 0;
             showQuestion();
         }
 
         function showQuestion() {
-            if (currentQuestion < questions.length) {
-                let q = questions[currentQuestion];
+            if (currentQuestion < quizQuestions.length) {
+                let q = quizQuestions[currentQuestion];
                 let optionsHTML = '';
                 
-                q.options.forEach((opt, index) => {
+                let shuffledOptions = shuffleArray([...q.options]);
+
+                shuffledOptions.forEach((opt) => {
                     optionsHTML += `<button onclick="selectOption(${opt.score})" class="bg-purple-600 hover:bg-purple-700 text-white font-medium w-full py-3 px-4 rounded-xl transition duration-200 shadow-md">${opt.text}</button>`;
                 });
 
                 document.getElementById('quiz-container').innerHTML = `
-                    <p class="text-xs text-yellow-300 font-semibold mb-2">Question ${currentQuestion + 1} of ${questions.length}</p>
+                    <p class="text-xs text-yellow-300 font-semibold mb-2">Question ${currentQuestion + 1} of ${quizQuestions.length}</p>
                     <h2 class="text-lg font-semibold mb-5 text-gray-100">${q.question}</h2>
                     <div class="space-y-3">
                         ${optionsHTML}
@@ -85,12 +135,12 @@
         }
 
         function showResult() {
-            let mentalAge = Math.floor(totalScore / 2) + 10;
-            if(mentalAge > 45) mentalAge = 35; // Fun capping
+            let mentalAge = Math.floor(totalScore / 4) + 12;
+            if(mentalAge > 45) mentalAge = 38;
 
             document.getElementById('quiz-container').innerHTML = `
                 <h2 class="text-2xl font-bold text-green-300 mb-2">Quiz Completed! 🎉</h2>
-                <p class="text-gray-200 mb-4 text-sm">Based on your choices...</p>
+                <p class="text-gray-200 mb-4 text-sm">Based on your unique choices...</p>
                 <div class="bg-white/20 p-4 rounded-xl mb-6 border border-white/10">
                     <p class="text-sm text-gray-300">Your True Mental Age is:</p>
                     <p class="text-3xl font-extrabold text-yellow-400 mt-1">${mentalAge} Years Old! 😎</p>
@@ -103,3 +153,4 @@
     </script>
 </body>
 </html>
+28
