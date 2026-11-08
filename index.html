@@ -11,11 +11,24 @@
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#14213D',
+                        cream: '#F4EDE0',
+                        coral: '#FF6B5B'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gradient-to-br from-indigo-900 to-purple-800 min-h-screen flex items-center justify-center p-4 text-white font-sans">
+<body class="bg-navy min-h-screen flex items-center justify-center p-4 text-cream font-sans">
 
-    <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-2xl max-w-md w-full text-center border border-white/20">
-        <h1 class="text-2xl font-bold mb-4 text-yellow-300">🧠 Mental Age Quiz</h1>
+    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-2xl shadow-2xl max-w-md w-full text-center border border-white/10">
+        <h1 class="text-2xl font-bold mb-4 text-coral">🧠 Mental Age Quiz</h1>
         
         <!-- Direct Quiz Container -->
         <div id="quiz-container">
@@ -114,12 +127,12 @@
                 let shuffledOptions = shuffleArray([...q.options]);
 
                 shuffledOptions.forEach((opt) => {
-                    optionsHTML += `<button onclick="selectOption(${opt.score})" class="bg-purple-600 hover:bg-purple-700 text-white font-medium w-full py-3 px-4 rounded-xl transition duration-200 shadow-md">${opt.text}</button>`;
+                    optionsHTML += `<button onclick="selectOption(${opt.score})" class="bg-navy border border-coral/40 hover:bg-coral hover:text-navy text-cream font-medium w-full py-3 px-4 rounded-xl transition duration-200 shadow-md">${opt.text}</button>`;
                 });
 
                 document.getElementById('quiz-container').innerHTML = `
-                    <p class="text-xs text-yellow-300 font-semibold mb-2">Question ${currentQuestion + 1} of ${quizQuestions.length}</p>
-                    <h2 class="text-lg font-semibold mb-5 text-gray-100">${q.question}</h2>
+                    <p class="text-xs text-coral font-semibold mb-2">Question ${currentQuestion + 1} of ${quizQuestions.length}</p>
+                    <h2 class="text-lg font-semibold mb-5 text-cream">${q.question}</h2>
                     <div class="space-y-3">
                         ${optionsHTML}
                     </div>
@@ -143,18 +156,18 @@
             let whatsappURL = `https://wa.me/?text=` + encodeURIComponent(message);
 
             document.getElementById('quiz-container').innerHTML = `
-                <h2 class="text-2xl font-bold text-green-300 mb-2">Quiz Completed! 🎉</h2>
-                <p class="text-gray-200 mb-4 text-sm">Based on your unique choices...</p>
-                <div class="bg-white/20 p-4 rounded-xl mb-5 border border-white/10">
-                    <p class="text-sm text-gray-300">Your True Mental Age is:</p>
-                    <p class="text-3xl font-extrabold text-yellow-400 mt-1">${finalMentalAge} Years Old! 😎</p>
+                <h2 class="text-2xl font-bold text-coral mb-2">Quiz Completed! 🎉</h2>
+                <p class="text-cream/80 mb-4 text-sm">Based on your unique choices...</p>
+                <div class="bg-white/10 p-4 rounded-xl mb-5 border border-white/10">
+                    <p class="text-sm text-cream/70">Your True Mental Age is:</p>
+                    <p class="text-3xl font-extrabold text-coral mt-1">${finalMentalAge} Years Old! 😎</p>
                 </div>
                 
-                <a href="${whatsappURL}" target="_blank" class="block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300 mb-3 text-center">
+                <a href="${whatsappURL}" target="_blank" class="block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300 mb-3 text-center">
                     Share on WhatsApp 🟢
                 </a>
 
-                <button onclick="startQuiz()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
+                <button onclick="startQuiz()" class="bg-coral hover:opacity-90 text-navy font-bold py-3 px-6 rounded-full w-full shadow-lg transition duration-300">
                     Play Again 🔄
                 </button>
             `;
